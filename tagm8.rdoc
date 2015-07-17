@@ -1,0 +1,5 @@
+= tagm8
+
+Generate this with
+    tagm8 rdoc
+After you have described your command line interface
