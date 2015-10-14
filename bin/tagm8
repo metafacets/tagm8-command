@@ -261,12 +261,12 @@ end
 desc 'List descendents of tags within a taxonomy'
 long_desc 'List common descendents to a list of tags within a taxonomy'
 #arg_name 'Describe arguments to create here'
-command :list_descendents do |c|
+command :list_descendants do |c|
   c.flag [:t,:taxonomy], desc:'taxonomy name', required:true
   c.flag [:l,:list], desc:'tag list', required:true
   c.switch [:r,:reverse], desc:'reverse sort alphabetically'
   c.action do |_,options,_|
-    show(facade.list_genealogy('descendents',options[:taxonomy],options[:list],options[:reverse]))
+    show(facade.list_genealogy('descendants',options[:taxonomy],options[:list],options[:reverse]))
   end
 end
 
