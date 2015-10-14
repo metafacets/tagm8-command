@@ -43,6 +43,14 @@ def show(res)
   puts msg unless msg.empty?
 end
 
+class TagSyntax
+
+end
+
+accept TagSyntax do |value|
+  value.gsub('\\','>').gsub('/','<')
+end
+
 desc 'Wipe current database'
 long_desc 'Wipes all data from current database'
 #arg_name 'Describe arguments to create here'
@@ -147,7 +155,7 @@ desc 'Add tags to a taxonomy'
 #arg_name 'Describe arguments to create here'
 command :add_tags do |c|
   c.flag [:t,:taxonomy], desc:'taxonomy name', required:true
-  c.flag [:s,:syntax], desc:'tag syntax', required:true
+  c.flag [:s,:syntax], desc:'tag syntax', required:true, type:TagSyntax
   c.switch [:d,:details], desc:'detailed output'
   c.action do |_,options,_|
     show(facade.add_tags(options[:taxonomy],options[:syntax],options[:details]))
