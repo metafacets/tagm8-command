@@ -48,7 +48,7 @@ class TagSyntax
 end
 
 accept TagSyntax do |value|
-  value.gsub('\\','>').gsub('/','<')
+  value.gsub('\\','>').gsub('/','<').gsub('^','\n')
 end
 
 desc 'Wipe current database'
@@ -335,9 +335,9 @@ long_desc 'Adds a new item, or replaces an existing item within a specified albu
 command :add_item do |c|
   c.flag [:t,:taxonomy], desc:'taxonomy name', required:true
   c.flag [:a,:album], desc:'album name', required:true
-  c.flag [:s,:syntax], desc:'item syntax instead of -i and -c'
+  c.flag [:s,:syntax], desc:'item syntax instead of -i and -c', type:TagSyntax
   c.flag [:i,:item], desc:'item name'
-  c.flag [:c,:content], desc:'item content'
+  c.flag [:c,:content], desc:'item content', type:TagSyntax
   c.action do |_,options,_|
     options[:syntax] = "#{options[:item]}\n#{options[:content]}" unless options[:item].nil? || options[:content].nil?
     show(facade.add_item(options[:taxonomy],options[:album],options[:syntax]))
@@ -353,7 +353,7 @@ command :delete_items do |c|
   c.flag [:l,:list], desc:'list of albums to be deleted', required:true
   c.switch [:d,:details], desc:'detailed output'
   c.action do |_,options,_|
-    show(facade.delete_albums(options[:taxonomy],options[:album],options[:list],options[:details]))
+    show(facade.delete_items(options[:taxonomy],options[:album],options[:list],options[:details]))
   end
 end
 
