@@ -48,7 +48,15 @@ class TagSyntax
 end
 
 accept TagSyntax do |value|
-  value.gsub('\\','>').gsub('/','<').gsub('^','\n')
+  value.gsub('\\','>').gsub('/','<').gsub('~','\n')
+end
+
+class QuerySyntax
+
+end
+
+accept TagSyntax do |value|
+  value.gsub('+','&').gsub(',','|')
 end
 
 desc 'Wipe current database'
@@ -404,7 +412,7 @@ long_desc 'Queries items optionally within an album and/or taxonomy or by name a
 command [:query,:query_items] do |c|
   c.flag [:t,:taxonomy], desc:'taxonomy name'
   c.flag [:a,:album], desc:'album name'
-  c.flag [:q,:query], desc:'item name', required:true
+  c.flag [:q,:query], desc:'item name', required:true, type:TagSyntax
   c.flag [:f,:fullnames], desc:'use fully resolved names e.g. item_name.album_name.taxonomy_name', must_match: ['no','topdown','bottomup']
   c.switch [:d,:details], desc:'detailed output'
   c.switch [:r,:reverse], desc:'reverse sort alphabetically'
